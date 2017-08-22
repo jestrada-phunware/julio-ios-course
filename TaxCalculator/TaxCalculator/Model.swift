@@ -13,19 +13,31 @@ class Model {
     var taxRate = 0.00
     var subtotalFromTextField = "0.00"
 
-    var subtotalAsDecimal: NSDecimalNumber {
-        return NSDecimalNumber(string: subtotalFromTextField)
+//    private var subtotalAsDecimal: NSDecimalNumber {
+//        return NSDecimalNumber(string: subtotalFromTextField)
+//    }
+//
+//    private var taxRateAsDecimal: NSDecimalNumber {
+//        return NSDecimalNumber(value: taxRate)
+//    }
+//
+//    var taxAmount: NSDecimalNumber {
+//        return subtotalAsDecimal.multiplying(by: taxRateAsDecimal)
+//    }
+//
+//    var totalAmount: NSDecimalNumber {
+//        return subtotalAsDecimal.adding(taxAmount)
+//    }
+    
+    func calculateTaxRate(_ taxRate: Double, enteredAmount amount: String) -> Double? {
+        self.taxRate = taxRate
+        self.subtotalFromTextField = amount
+        let tax = taxRate
+        guard let amountDouble = Double(amount) else { return 0.00 }
+        let total = amountDouble * Double(tax) + amountDouble
+        
+        return total
     }
+    
 
-    var taxRateAsDecimal: NSDecimalNumber {
-        return NSDecimalNumber(value: taxRate)
-    }
-
-    var taxAmount: NSDecimalNumber {
-        return subtotalAsDecimal.multiplying(by: taxRateAsDecimal)
-    }
-
-    var totalAmount: NSDecimalNumber {
-        return subtotalAsDecimal.adding(taxAmount)
-    }
 }

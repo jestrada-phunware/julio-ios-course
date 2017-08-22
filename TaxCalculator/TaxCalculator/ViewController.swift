@@ -29,35 +29,34 @@ class ViewController: UIViewController {
     // MARK: - Interactions
     @IBAction func tapButton(_ sender: UIButton) {
         subtotalTextField.resignFirstResponder()
-
-        if let subtotal = subtotalTextField.text, subtotal == "" {
-            totalLabel.text = "Total: "
-        } else {
-            calculateSalesTax()
-        }
+        calculateSalesTax()
     }
 
     // MARK: - Functions
     func calculateSalesTax() {
-        guard let subtotal = subtotalTextField.text, subtotal != "" else {
+        guard let subtotal = subtotalTextField.text, !subtotal.isEmpty else {
             print("Subtotal is empty")
+            totalLabel.text = "Total: "
+            return
+        }
+        
+        guard subtotal == subtotal.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: ".") else {
+            totalLabel.text = "Please enter valid number"
             return
         }
         let stateIndex = statesSegmentedControl.selectedSegmentIndex
-        model.taxRate = stateTaxRate[stateIndex]
-        model.subtotalFromTextField = subtotal
+        let taxRate = stateTaxRate[stateIndex]
 
-        let totalAmount = model.totalAmount
-//        let handler = NSDecimalNumberHandler(roundingMode: .plain, scale: 2, raiseOnExactness: true, raiseOnOverflow: true, raiseOnUnderflow: true, raiseOnDivideByZero: false)
-//        let roundedTotal = totalAmount.rounding(accordingToBehavior: handler)
-        let roundedTotal = formatter(number: totalAmount)
-        updateTotalLabel(total: roundedTotal)
+        guard let totalAmount = model.calculateTaxRate(taxRate, enteredAmount: subtotal) else { return }
+        updateTotalLabel(total: totalAmount)
+        
+        print(model.taxRate)
     }
 
-    func updateTotalLabel(total: String?) {
+    func updateTotalLabel(total: Double?) {
 
         if let total = total {
-            totalLabel.text = total
+            totalLabel.text = "Total: $\(total)"
         }
     }
 

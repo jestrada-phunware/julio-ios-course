@@ -12,11 +12,13 @@ enum TextFieldError: Error {
     case emptyValue(String)
 }
 
-func formatter(number: NSNumber) -> String? {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .currency
-    let numberAsCurrency = formatter.string(from: number)
-    return numberAsCurrency
+extension NSNumber {
+    func formatter(number: NSNumber) -> String? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        let numberAsCurrency = formatter.string(from: number)
+        return numberAsCurrency
+    }
 }
 
 extension UISegmentedControl {
