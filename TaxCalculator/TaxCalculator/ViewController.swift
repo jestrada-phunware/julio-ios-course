@@ -34,23 +34,26 @@ class ViewController: UIViewController {
 
     // MARK: - Functions
     func calculateSalesTax() {
+
         guard let subtotal = subtotalTextField.text, !subtotal.isEmpty else {
             print("Subtotal is empty")
             totalLabel.text = "Total: "
             return
         }
-        
         guard subtotal == subtotal.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: ".") else {
             totalLabel.text = "Please enter valid number"
             return
         }
+
         let stateIndex = statesSegmentedControl.selectedSegmentIndex
         let taxRate = stateTaxRate[stateIndex]
 
-        guard let totalAmount = model.calculateTaxRate(taxRate, enteredAmount: subtotal) else { return }
+        guard let totalAmount = model.calculateTaxRate(taxRate, enteredAmount: subtotal) else {
+            return
+        }
+
         updateTotalLabel(total: totalAmount)
-        
-        print(model.taxRate)
+//        print(model.taxRate)
     }
 
     func updateTotalLabel(total: Double?) {

@@ -10,8 +10,8 @@ import Foundation
 
 class Model {
 
-    var taxRate = 0.00
-    var subtotalFromTextField = "0.00"
+//    var taxRate = 0.00
+//    var subtotalFromTextField = "0.00"
 
 //    private var subtotalAsDecimal: NSDecimalNumber {
 //        return NSDecimalNumber(string: subtotalFromTextField)
@@ -30,10 +30,12 @@ class Model {
 //    }
     
     func calculateTaxRate(_ taxRate: Double, enteredAmount amount: String) -> Double? {
-        self.taxRate = taxRate
-        self.subtotalFromTextField = amount
+//        self.taxRate = taxRate
+//        self.subtotalFromTextField = amount
         let tax = taxRate
-        guard let amountDouble = Double(amount) else { return 0.00 }
+        guard let amountDouble = Double(amount) else {
+            return 0.00
+        }
         let total = amountDouble * Double(tax) + amountDouble
         
         return total
